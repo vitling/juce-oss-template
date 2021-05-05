@@ -1,6 +1,6 @@
 # juce-oss-template
 
-This project was created as a tool to both document and automate the process of creating a new CMake-based JUCE project for the purpose of open-source plugin development. I created it because I found I was cargo-culting from previous projects to create new ones, and in that process I often forgot things, and decided a script would be better.
+This project was created as a tool to both document and automate the process of creating a new CMake-based [JUCE](https://github.com/juce-framework/JUCE) project for the purpose of open-source plugin development. I created it because I found I was cargo-culting from previous projects to create new ones, and in that process I often forgot things, and decided a script would be better.
 
 The implementation is opinionated and doesn't attempt to offer the user a lot of options, just to create a basic project skeleton with minimum effort as a starting point.
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-REMOTE_TEMPLATE_URL=https://raw.githubusercontent.com/vitling/juce-oss-template/main/templates/
+REMOTE_TEMPLATE_URL=https://raw.githubusercontent.com/vitling/juce-oss-template/main/templates
 GNU_GPL_SRC=https://www.gnu.org/licenses/gpl-3.0.txt
 
 function create4Code() {
@@ -48,12 +48,12 @@ echo "Creating target dir $TARGET_DIR"
 mkdir $TARGET_DIR 
 
 echo "Downloading and filling templates"
-curl -fksSL "${REMOTE_TEMPLATE_URL}/CMakeLists.txt.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/CMakeLists.txt
-curl -fksSL "${REMOTE_TEMPLATE_URL}/Plugin.cpp.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/${TMPL_PROJECT_NAME_TITLECASE}.cpp
-curl -fksSL "${REMOTE_TEMPLATE_URL}/gitignore.template" > "${TARGET_DIR}/.gitignore"
+curl -H 'Cache-Control: no-cache' -fksSL "${REMOTE_TEMPLATE_URL}/CMakeLists.txt.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/CMakeLists.txt
+curl -H 'Cache-Control: no-cache' -fksSL "${REMOTE_TEMPLATE_URL}/Plugin.cpp.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/${TMPL_PROJECT_NAME_TITLECASE}.cpp
+curl -H 'Cache-Control: no-cache' -fksSL "${REMOTE_TEMPLATE_URL}/gitignore.template" > "${TARGET_DIR}/.gitignore"
 
 echo "Downloading GPL license"
-curl $GNU_GPL_SRC > "${TARGET_DIR}/COPYING"
+curl -fksSL $GNU_GPL_SRC > "${TARGET_DIR}/COPYING"
 
 (cd $TARGET_DIR
     echo "Creating new git repo"
