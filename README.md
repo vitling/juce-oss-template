@@ -9,10 +9,17 @@ No need to clone this repo, the script works without any local state. You can th
 However, because you should ***never*** run random scripts from the internet without seeing what they do first I recommend you check the [create-new-plugin.sh](https://raw.githubusercontent.com/vitling/juce-oss-template/main/create-new-plugin.sh) source before running
 
 ```sh
-curl https://raw.githubusercontent.com/vitling/juce-oss-template/main/create-new-plugin.sh | bash
+bash <(curl -fksSL https://raw.githubusercontent.com/vitling/juce-oss-template/main/create-new-plugin.sh)
 ```
 
 Requires `envsubst` from GNU gettext, `curl` and `git` to be available on the path
+
+It'll then create a project that can be built as usual with cmake
+
+```sh
+cmake -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+```
 
 ## What does it do?
 

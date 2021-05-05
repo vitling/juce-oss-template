@@ -48,9 +48,9 @@ echo "Creating target dir $TARGET_DIR"
 mkdir $TARGET_DIR 
 
 echo "Downloading and filling templates"
-curl "${REMOTE_TEMPLATE_URL}/CMakeLists.txt.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/CMakeLists.txt
-curl "${REMOTE_TEMPLATE_URL}/Plugin.cpp.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/${TMPL_PROJECT_NAME_TITLECASE}.cpp
-curl "${REMOTE_TEMPLATE_URL}/gitignore.template" > "${TARGET_DIR}/.gitignore"
+curl -fksSL "${REMOTE_TEMPLATE_URL}/CMakeLists.txt.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/CMakeLists.txt
+curl -fksSL "${REMOTE_TEMPLATE_URL}/Plugin.cpp.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/${TMPL_PROJECT_NAME_TITLECASE}.cpp
+curl -fksSL "${REMOTE_TEMPLATE_URL}/gitignore.template" > "${TARGET_DIR}/.gitignore"
 
 echo "Downloading GPL license"
 curl $GNU_GPL_SRC > "${TARGET_DIR}/COPYING"
