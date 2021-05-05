@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-read -p "Plugin Name (eg. My Additive Synth): " PLUGIN_NAME
-read -p "Github Username: " GH_USERNAME
+REMOTE_TEMPLATE_URL=https://raw.githubusercontent.com/vitling/juce-oss-template/main/templates/
+GNU_GPL_SRC=https://www.gnu.org/licenses/gpl-3.0.txt
 
 function create4Code() {
     echo "$(tr '[:lower:]' '[:upper:]' <<< ${1:0:1})$(tr '[:upper:]' '[:lower:]' <<< ${1:1:3})"
@@ -15,6 +15,9 @@ function upperFirst() {
 function removeNonAlphanumeric() {
     echo $(tr -c -d [:alnum:] <<< "$*")
 }
+
+read -p "Plugin Name (eg. My Additive Synth): " PLUGIN_NAME
+read -p "Github Username: " GH_USERNAME
 
 
 PLUGIN_UPPER_UNDERSCORE_FORM=$(echo $PLUGIN_NAME | tr -d '\n' | tr [:lower:] [:upper:] | tr -c [:alnum:] '_')
@@ -39,19 +42,27 @@ export TMPL_PROJECT_VERSION=0.0.1
 
 TEMPLATE_VARS='$TMPL_PROJECT_NAME_UNDERSCORED:$TMPL_PROJECT_NAME_TITLECASE:$TMPL_CLASSNAME:$TMPL_SHORT_NAME:$TMPL_CREATOR:$TMPL_MANUFACTURER_CODE:$TMPL_PLUGIN_CODE:$TMPL_DESCRIPTION:$TMPL_BUNDLE_ID:$TMPL_PROJECT_VERSION'
 
-SRC_DIR=$(pwd)
 TARGET_DIR=${LOWER_SPACELESS_FORM}
 
-mkdir  $TARGET_DIR 
-envsubst "$TEMPLATE_VARS" < "${SRC_DIR}/CMakeLists.txt.template" > ${TARGET_DIR}/CMakeLists.txt
-envsubst "$TEMPLATE_VARS" < "${SRC_DIR}/Plugin.cpp.template" > ${TARGET_DIR}/${TMPL_PROJECT_NAME_TITLECASE}.cpp
-cp "${SRC_DIR}/gitignore.template" "${TARGET_DIR}/.gitignore"
+echo "Creating target dir $TARGET_DIR"
+mkdir $TARGET_DIR 
+
+echo "Downloading and filling templates"
+curl "${REMOTE_TEMPLATE_URL}/CMakeLists.txt.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/CMakeLists.txt
+curl "${REMOTE_TEMPLATE_URL}/Plugin.cpp.template" | envsubst "$TEMPLATE_VARS" > ${TARGET_DIR}/${TMPL_PROJECT_NAME_TITLECASE}.cpp
+curl "${REMOTE_TEMPLATE_URL}/gitignore.template" > "${TARGET_DIR}/.gitignore"
+
+echo "Downloading GPL license"
+curl $GNU_GPL_SRC > "${TARGET_DIR}/COPYING"
+
 (cd $TARGET_DIR
+    echo "Creating new git repo"
     git init
-    git add CMakeLists.txt
-    git add ${TMPL_PROJECT_NAME_TITLECASE}.cpp
-    git add .gitignore
+
+    echo "Adding JUCE framework as submodule"
     git submodule add --depth 1 https://github.com/juce-framework/JUCE.git
+
+    echo "Creating initial commit to repo"
+    git add CMakeLists.txt ${TMPL_PROJECT_NAME_TITLECASE}.cpp .gitignore COPYING
     git commit -am "Initial commit"
 )
-
