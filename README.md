@@ -29,3 +29,13 @@ cmake --build build --parallel
 * Download a fresh copy of the GPL3 and put it in `COPYING`
 * Init a git repo, add JUCE as a submodule, create a commit with the above files in
 
+## Contributing/Further Development
+
+I have only tested this script on MacOS 10.15 and briefly on a headless Linux box. Issues and Pull Requests to broaden the support to more platforms are welcomed and encouraged, as well as bug fixes and changes to the templates to use JUCE more "correctly" and to move with changes in JUCE itself.
+
+I limit the scope of my own interest to be a quick-and-dirty bootstrap rather than, for example, replicating all the functionality of the Projucer in the CMake world. However, feel free to take any ideas or code from this repo to build out your own if that's your interest.
+
+## License
+
+This script and accompanying templates are free software, licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). 
+

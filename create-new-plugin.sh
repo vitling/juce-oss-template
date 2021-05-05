@@ -66,3 +66,4 @@ curl -fksSL $GNU_GPL_SRC > "${TARGET_DIR}/COPYING"
     git add CMakeLists.txt ${TMPL_PROJECT_NAME_TITLECASE}.cpp .gitignore COPYING
     git commit -am "Initial commit"
 )
+
